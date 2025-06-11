@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Para o Amor da Minha Vida 💖</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+        .slideshow {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        .slideshow img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slideshow img.active {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #f9a8d4;
+        }
+
+        #mensagem {
+            max-width: 90%;
+            font-size: 1.2rem;
+            color: #fce7f3;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: #111;
+        }
+
+        .card h2 { color: #be185d; margin-bottom: 0.5rem; }
+        .card p { color: #444; }
+
+        button {
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.5rem;
+            background-color: #ec4899;
+            color: white;
+            border: none;
+            border-radius: 999px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover { background-color: #f472b6; }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+            #mensagem { font-size: 1rem; }
+        }
+        form {
+            max-height: 100vh;
+            padding-bottom: 80px; /* espaço extra pra não cortar com teclado */
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+        }
+
+        .card h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            color: #1e3c72;
+        }
+
+        .card label {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .card input,
+        .card select {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .card input:focus,
+        .card select:focus {
+            border-color: #1e3c72;
+            outline: none;
+        }
+
+        .card button {
+            padding: 0.75rem;
+            background-color: #1e3c72;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #16325c;
+        }
+
+        /* Novo estilo para o modal inicial */
+        #modal-inicial {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #modal-inicial h2 {
+            color: #f9a8d4;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        #conteudo-principal {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Modal inicial -->
+<div id="modal-inicial">
+    <h2>💖 Para o amor da minha vida 💖</h2>
+    <button onclick="iniciarExperiencia()">🎵 Tocar música e começar</button>
+</div>
+
+<!-- Áudio de fundo -->
+<audio id="bg-music" loop>
+    <source src="Danilo e Davi - Retrato Falado (Prazer Danilo e Davi).mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+</audio>
+
+<!-- Slideshow de fundo -->
+<div class="slideshow">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56.jpeg" class="active">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (1).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.55.20.jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (2).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (3).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (4).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (5).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (6).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.56 (7).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.57.jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.57 (1).jpeg">
+    <img src="WhatsApp Image 2025-06-10 at 15.42.57 (2).jpeg">
+    <div class="overlay"></div>
+</div>
+
+<!-- Conteúdo principal (inicialmente escondido) -->
+<div id="conteudo-principal">
+    <main>
+        <h1>💖 Para o amor da minha vida 💖</h1>
+        <p id="mensagem"></p>
+
+        <div class="card" id="card">
+            <h2 id="titulo">Carregando...</h2>
+            <p id="descricao"></p>
+        </div>
+
+        <button onclick="proximoMomento()">Ver próximo momento</button>
+
+        <div id="formulario" style="display: none; margin-top: 2rem;">
+            <form onsubmit="enviarParaWhatsapp(event)" class="form-container">
+                <div class="card">
+                    <h2>Vamos planejar nosso dia?</h2>
+
+                    <label for="dia">Prefere sair no dia 11 ou 12?</label>
+                    <select name="dia" id="dia" required>
+                        <option value="12">Dia 12</option>
+                        <option value="12">Dia 13</option>
+                        <option value="12">Dia 14</option>
+                        <option value="12">Dia 15</option>
+                    </select>
+
+                    <label for="horario">Melhor horário?</label>
+                    <input type="text" name="horario" id="horario" placeholder="Ex: 19h ou depois do trabalho" required />
+
+                    <label for="longe">Podemos ir longe?</label>
+                    <select name="longe" id="longe" required>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+
+                    <label for="ambiente">Lugar calmo ou agitado?</label>
+                    <select name="ambiente" id="ambiente" required>
+                        <option value="Calmo">Calmo</option>
+                        <option value="Agitado">Agitado</option>
+                    </select>
+
+                    <label for="essencial">O que não pode faltar?</label>
+                    <input type="text" name="essencial" id="essencial" placeholder="Ex: boa comida, música, etc." required />
+
+                    <div style="padding-bottom: 30px">
+                        <button type="submit">Enviar pelo WhatsApp</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    const mensagem = "Oi, meu amor. Preparei esse cantinho especial pra lembrar o quanto você é importante pra mim.";
+    let i = 0;
+
+    function digitarTexto() {
+        if (i < mensagem.length) {
+            document.getElementById("mensagem").textContent += mensagem.charAt(i);
+            i++;
+            setTimeout(digitarTexto, 50);
+        }
+    }
+
+    const momentos = [
+        { titulo: "Quando nos conhecemos", descricao: "O dia em que tudo começou e meu coração encontrou o seu." },
+        { titulo: "Nosso primeiro beijo", descricao: "Ali eu soube que nunca mais seria o mesmo." },
+        { titulo: "Nossos dias juntos", descricao: "Cada dia contigo é um capítulo de uma história que quero viver pra sempre." }
+    ];
+
+    let indice = 0;
+
+    function exibirMomento() {
+        const { titulo, descricao } = momentos[indice];
+        document.getElementById("titulo").textContent = titulo;
+        document.getElementById("descricao").textContent = descricao;
+    }
+
+    function proximoMomento() {
+        indice++;
+
+        if (indice >= momentos.length) {
+            // Quando chegar no fim dos momentos
+            document.querySelector('button[onclick="proximoMomento()"]').style.display = 'none'; // Esconde botão
+            mostrarFormularioNoCard(); // Substitui o card pelo formulário
+        } else {
+            exibirMomento();
+        }
+    }
+
+    // Slideshow
+    const slides = document.querySelectorAll('.slideshow img');
+    let current = 0;
+
+    setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+    }, 2000); // troca a cada 4 segundos
+
+    function iniciarExperiencia() {
+        // Toca a música
+        const audio = document.getElementById('bg-music');
+        audio.play();
+
+        // Esconde o modal inicial
+        document.getElementById('modal-inicial').style.display = 'none';
+
+        // Mostra o conteúdo principal
+        document.getElementById('conteudo-principal').style.display = 'block';
+
+        // Inicia as animações
+        digitarTexto();
+        exibirMomento();
+    }
+
+    function enviarParaWhatsapp(event) {
+        event.preventDefault();
+        const form = event.target;
+        const dia = form.dia.value;
+        const horario = form.horario.value;
+        const longe = form.longe.value;
+        const ambiente = form.ambiente.value;
+        const essencial = form.essencial.value;
+
+        const msg = `
+💖 Convite Especial 💖
+
+1. Prefere sair: ${dia}
+2. Melhor horário: ${horario}
+3. Podemos ir longe? ${longe}
+4. Ambiente: ${ambiente}
+6. O que não pode faltar: ${essencial}
+`;
+
+        const numero = "5514982325360"; // coloque seu número com DDD
+        const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
+    }
+
+    function mostrarFormularioNoCard() {
+        const card = document.getElementById('card');
+        card.style.display = 'none';
+
+        const formulario = document.getElementById('formulario');
+        formulario.style.display = 'block';
+    }
+</script>
+</body>
+</html>
